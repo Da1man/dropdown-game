@@ -1,14 +1,15 @@
 import Phaser from 'phaser';
 
 export default class Coin extends Phaser.GameObjects.Sprite {
-  constructor(scene, velocity) {
-    super (scene, Phaser.Math.Between(50, scene.sys.game.config.width - 50), 0, 'coin', 'coin1');
+  constructor(scene) {
+    super (scene, Phaser.Math.Between(10, scene.sys.game.config.width - 10), 0, 'coin', 'coin1');
     this.scene = scene;
-    this.velocity = velocity
     this.scene.add.existing(this);
     this.scene.physics.add.existing(this);
     this.body.enable = true;
     this.setScale(0.7);
+    this.isCollected = false;
+    this.scene.events.on('update', this.update, this);
 
     // Сгенерировать набор фреймов текстуры, необходимых для анимации
 
@@ -30,10 +31,26 @@ export default class Coin extends Phaser.GameObjects.Sprite {
     // Запустить анимацию
 
     this.play('spinCoin')
+
+    this.move()
   }
 
-  move() {
-    this.body.setVelocityY(this.velocity);
+  move(velocity) {
+    this.body.setVelocityY(velocity);
+  }
+
+  update(){
+    if (this.isCollected || this.body.y > this.scene.sys.game.config.height-10) {
+      if (this.body.y > this.scene.sys.game.config.height-10) {
+        this.scene.updateMissedScore(--this.scene.missed)
+      }
+      this.body.enable = false;
+      this.body.y = -50;
+      this.setVisible(false);
+      this.setActive(false);
+      this.body.destroy();
+      this.isCollected = false;
+    }
   }
 
 

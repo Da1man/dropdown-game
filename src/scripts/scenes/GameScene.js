@@ -1,33 +1,108 @@
 import Phaser from 'phaser';
 import Coin from "../classes/Coin";
 import Bomb from "../classes/Bomb";
-import DropItems from "../classes/Coins";
+import Player from "../classes/Player";
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
     super('Game')
   }
 
+  init() {
+    this.cursors = this.input.keyboard.createCursorKeys();
+    this.score = 0;
+    this.missed = 10;
+  }
 
   create() {
     this.createBackground();
-    this.createCoins();
-    this.createBombs();
-    console.log('GameScene create');
+    this.createGroups();
+    this.createPlayer();
+    this.createCollisions();
+    this.createCoinTimer();
+    this.createBombTimer();
+    this.createScore();
   }
 
   createBackground() {
     this.add.sprite(0, 0, 'bg').setOrigin(0);
   }
 
-  createCoins() {
-    // console.log(this.physics.world)
-    this.createItems = new DropItems(this.scene);
-    // this.coins = new Coin(this);
+  createCoinTimer() {
+    this.scene.scene.time.addEvent({
+      delay: 1000,
+      loop: true,
+      callback: this.createCoins,
+      callbackScope: this,
+    })
   }
 
-  createBombs() {
-    this.bomb = new Bomb(this, 100, 100);
+  createBombTimer() {
+    this.scene.scene.time.addEvent({
+      delay: 2000,
+      loop: true,
+      callback: this.createBomb,
+      callbackScope: this,
+    })
+  }
+
+  createGroups() {
+    this.coins = this.physics.add.group();
+    this.bombs = this.physics.add.group();
+  }
+
+  createPlayer() {
+    this.player = new Player(this);
+  }
+
+  createCollisions() {
+    this.physics.add.overlap(this.player, this.coins, this.onCoinCollect, undefined, this);
+  }
+
+  onCoinCollect(source, target) {
+    target.isCollected = true;
+    this.updateScore(++this.score)
+  }
+
+  createCoins() {
+    const coinVelocity = Phaser.Math.Between(50, 200);
+    this.coin = new Coin(this);
+    this.coins.add(this.coin);
+    this.coin.move(coinVelocity);
+  }
+
+  createBomb() {
+    const bombVelocity = Phaser.Math.Between(50, 400);
+    this.bomb = new Bomb(this);
+    this.bombs.add(this.bomb);
+    this.bomb.move(bombVelocity);
+  }
+
+  createScore() {
+    this.scoreText = this.add.text(20,20, 'Coins: 0', {
+      fill: '#ffffff'
+    });
+    this.missedScoreText = this.add.text(350, 20, `Miss: ${this.missed}`, {
+      fill: '#ffffff'
+    })
+  }
+
+  updateScore(score) {
+    this.scoreText.setText(`Coins: ${score}`);
+  }
+
+  updateMissedScore(score) {
+    this.missedScoreText.setText(`Miss: ${score}`)
+  }
+
+
+  update(time, delta) {
+    this.player.move();
+    if (this.missed <= 0) {
+      this.add.text('150',400, 'GAME OVER',{
+        font: '40px CurseCasual',
+      })
+    }
   }
 
 }

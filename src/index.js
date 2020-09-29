@@ -8,13 +8,13 @@ const config = {
   type: Phaser.AUTO,
   width: 500,
   height: 800,
+  scene: [BootScene, PreloadScene, StartScene, GameScene],
   physics: {
     default: 'arcade',
     arcade: {
-      debug: false,
+      debug: true,
     }
   },
-  scene: [BootScene, PreloadScene, StartScene, GameScene],
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH

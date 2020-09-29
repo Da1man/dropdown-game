@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import backgroundJpg from '../../assets/sprites/background.jpg';
 
 export default class BootScene extends Phaser.Scene {
   constructor() {
@@ -6,7 +7,8 @@ export default class BootScene extends Phaser.Scene {
   }
 
   preload() {
-    console.log('BootScene preload')
+    console.log('BootScene preload');
+
   }
 
   create() {

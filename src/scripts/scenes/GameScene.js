@@ -22,6 +22,7 @@ export default class GameScene extends Phaser.Scene {
     this.createCoinTimer();
     this.createBombTimer();
     this.createScore();
+    this.createSounds();
   }
 
   createBackground() {
@@ -100,6 +101,10 @@ export default class GameScene extends Phaser.Scene {
 
   updateMissedScore(score) {
     this.missedScoreText.setText(`Miss: ${score}`)
+  }
+
+  createSounds() {
+    this.sound.add('theme', {volume:0.1, loop: true})
   }
 
 

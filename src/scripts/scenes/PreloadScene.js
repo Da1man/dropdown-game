@@ -6,6 +6,11 @@ import backgroundJpg from "../../assets/sprites/background.jpg";
 import bucketPng from "../../assets/sprites/bucket.png";
 
 
+import mainTheme from "../../assets/sounds/theme.mp3";
+
+
+
+
 export default class PreloadScene extends Phaser.Scene {
   constructor() {
     super('Preload')
@@ -21,6 +26,8 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image('bomb', bombPng);
     this.load.image('bucket', bucketPng);
     this.load.atlas('coin', coinsPng, coinsJson)
+
+    this.load.audio('theme', mainTheme )
   }
 
   create() {

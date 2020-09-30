@@ -57,11 +57,18 @@ export default class GameScene extends Phaser.Scene {
 
   createCollisions() {
     this.physics.add.overlap(this.player, this.coins, this.onCoinCollect, undefined, this);
+    this.physics.add.overlap(this.player, this.bombs, this.onBombHit, undefined, this)
   }
 
   onCoinCollect(source, target) {
     target.isCollected = true;
     this.updateScore(++this.score)
+  }
+
+  onBombHit(source, target) {
+    this.scene.start('Gameover',{
+      score: this.score,
+    });
   }
 
   createCoins() {
@@ -81,10 +88,10 @@ export default class GameScene extends Phaser.Scene {
   createScore() {
     this.scoreText = this.add.text(20,20, 'Coins: 0', {
       fill: '#ffffff'
-    });
-    this.missedScoreText = this.add.text(350, 20, `Miss: ${this.missed}`, {
+    }).setOrigin(0,0)
+    this.missedScoreText = this.add.text(this.sys.game.config.width - 20, 20, `Miss: ${this.missed}`, {
       fill: '#ffffff'
-    })
+    }).setOrigin(1,0)
   }
 
   updateScore(score) {
@@ -99,8 +106,8 @@ export default class GameScene extends Phaser.Scene {
   update(time, delta) {
     this.player.move();
     if (this.missed <= 0) {
-      this.add.text('150',400, 'GAME OVER',{
-        font: '40px CurseCasual',
+      this.scene.start('Gameover', {
+        score: this.score,
       })
     }
   }

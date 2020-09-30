@@ -26,13 +26,17 @@ export default class Coin extends Phaser.GameObjects.Sprite {
       frames: frames,
       frameRate: 10,
       repeat: -1,
-    })
+    });
 
     // Запустить анимацию
 
-    this.play('spinCoin')
+    this.play('spinCoin');
 
     this.move()
+  }
+
+  init() {
+
   }
 
   move(velocity) {
@@ -40,18 +44,20 @@ export default class Coin extends Phaser.GameObjects.Sprite {
   }
 
   update(){
-    if (this.isCollected || this.body.y > this.scene.sys.game.config.height-10) {
-      if (this.body.y > this.scene.sys.game.config.height-10) {
-        this.scene.updateMissedScore(--this.scene.missed)
+    if (this.body) {
+      if (this.isCollected || this.body.y > this.scene.sys.game.config.height-10) {
+        if (this.body.y > this.scene.sys.game.config.height-10) {
+          this.scene.updateMissedScore(--this.scene.missed)
+        }
+        this.body.enable = false;
+        this.body.y = -50;
+        this.setVisible(false);
+        this.setActive(false);
+        this.body.destroy();
+        this.isCollected = false;
       }
-      this.body.enable = false;
-      this.body.y = -50;
-      this.setVisible(false);
-      this.setActive(false);
-      this.body.destroy();
-      this.isCollected = false;
     }
-  }
 
+  }
 
 }

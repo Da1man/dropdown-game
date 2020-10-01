@@ -7,6 +7,9 @@ import bucketPng from "../../assets/sprites/bucket.png";
 
 
 import mainTheme from "../../assets/sounds/theme.mp3";
+import explosionMp3 from "../../assets/sounds/explosion.mp3";
+import coinMp3 from "../../assets/sounds/coin.mp3";
+import failMp3 from "../../assets/sounds/fail.mp3";
 
 
 
@@ -28,6 +31,9 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.atlas('coin', coinsPng, coinsJson)
 
     this.load.audio('theme', mainTheme )
+    this.load.audio('explosion', explosionMp3 )
+    this.load.audio('collectCoin', coinMp3 )
+    this.load.audio('fail', failMp3 )
   }
 
   create() {

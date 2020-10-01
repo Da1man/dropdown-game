@@ -9,6 +9,7 @@ export default class GameoverScene extends Phaser.Scene {
   }
 
   create(data) {
+    data.sounds.theme.stop();
     this.game.config.backgroundColor.setTo(0,0,0,.5)
     this.add.text(this.sys.game.config.width / 2,300, 'GAME OVER',{
       font: '40px CurseCasual',

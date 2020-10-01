@@ -63,12 +63,15 @@ export default class GameScene extends Phaser.Scene {
 
   onCoinCollect(source, target) {
     target.isCollected = true;
-    this.updateScore(++this.score)
+    this.updateScore(++this.score);
+    this.sounds.collectCoin.play();
   }
 
   onBombHit(source, target) {
+    this.sounds.explosion.play();
     this.scene.start('Gameover',{
       score: this.score,
+      sounds: this.sounds,
     });
   }
 
@@ -104,15 +107,24 @@ export default class GameScene extends Phaser.Scene {
   }
 
   createSounds() {
-    this.sound.add('theme', {volume:0.1, loop: true})
+    this.sounds = {
+      theme: this.sound.add('theme', {volume:0.1, loop: true}),
+      explosion: this.sound.add('explosion',{volume: 0.2} ),
+      collectCoin: this.sound.add('collectCoin', {volume: 0.5}),
+      fail: this.sound.add('fail', {volume: 0.5}),
+    };
+
+    this.sounds.theme.play();
   }
 
 
   update(time, delta) {
     this.player.move();
     if (this.missed <= 0) {
+      this.sounds.fail.play();
       this.scene.start('Gameover', {
         score: this.score,
+        sounds: this.sounds,
       })
     }
   }

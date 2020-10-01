@@ -4,11 +4,12 @@ import Bomb from "../classes/Bomb";
 import Player from "../classes/Player";
 
 
+
+
 export default class GameScene extends Phaser.Scene {
   constructor() {
     super('Game')
   }
-
 
   init() {
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -31,15 +32,28 @@ export default class GameScene extends Phaser.Scene {
   }
 
   createMobileControls() {
-    const leftActiveBlock = this.add.graphics();
-    leftActiveBlock.fillStyle(0x000000, 0.5);
-    leftActiveBlock.fillRect(0,0,this.sys.game.config.width / 2, this.sys.game.config.height);
-    leftActiveBlock.setInteractive();
-    leftActiveBlock.on('pointerover', () => this.leftSideTap())
+
+    const leftActiveBlock = this.add.rectangle(0,0,this.sys.game.config.width / 2, this.sys.game.config.height, 0x000000, 0.5)
+    leftActiveBlock.setOrigin(0);
+    leftActiveBlock.setInteractive()
+    leftActiveBlock.on('pointerover', () => this.leftSideTap(),this);
+
+    const rightActiveBlock = this.add.rectangle(this.sys.game.config.width / 2,0,this.sys.game.config.width / 2, this.sys.game.config.height, 0x000000, 0.5)
+    rightActiveBlock.setOrigin(0);
+    rightActiveBlock.setInteractive();
+    rightActiveBlock.on('pointerover', () => this.rightSideTap(), this);
+
+
   }
 
   leftSideTap() {
     console.log('left')
+    this.player.body.setVelocityX(-400)
+  }
+
+  rightSideTap() {
+    console.log('right')
+    this.player.body.setVelocityX(-500)
   }
 
   createBackground() {
@@ -125,10 +139,10 @@ export default class GameScene extends Phaser.Scene {
 
   createSounds() {
     this.sounds = {
-      theme: this.sound.add('theme', {volume:0.1, loop: true}),
-      explosion: this.sound.add('explosion',{volume: 0.2} ),
-      collectCoin: this.sound.add('collectCoin', {volume: 0.5}),
-      fail: this.sound.add('fail', {volume: 0.5}),
+      theme: this.sound.add('theme', {volume:0.3, loop: true}),
+      explosion: this.sound.add('explosion',{volume: 0.1} ),
+      collectCoin: this.sound.add('collectCoin', {volume: 0.2}),
+      fail: this.sound.add('fail', {volume: 0.3}),
     };
 
     this.sounds.theme.play();

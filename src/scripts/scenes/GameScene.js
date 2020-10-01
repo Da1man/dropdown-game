@@ -3,10 +3,12 @@ import Coin from "../classes/Coin";
 import Bomb from "../classes/Bomb";
 import Player from "../classes/Player";
 
+
 export default class GameScene extends Phaser.Scene {
   constructor() {
     super('Game')
   }
+
 
   init() {
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -23,6 +25,21 @@ export default class GameScene extends Phaser.Scene {
     this.createBombTimer();
     this.createScore();
     this.createSounds();
+    if (!this.sys.game.device.os.desktop) {
+      this.createMobileControls()
+    }
+  }
+
+  createMobileControls() {
+    const leftActiveBlock = this.add.graphics();
+    leftActiveBlock.fillStyle(0x000000, 0.5);
+    leftActiveBlock.fillRect(0,0,this.sys.game.config.width / 2, this.sys.game.config.height);
+    leftActiveBlock.setInteractive();
+    leftActiveBlock.on('pointerover', () => this.leftSideTap())
+  }
+
+  leftSideTap() {
+    console.log('left')
   }
 
   createBackground() {

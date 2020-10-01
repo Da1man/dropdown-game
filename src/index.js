@@ -4,6 +4,8 @@ import BootScene from "./scripts/scenes/BootScene";
 import GameoverScene from "./scripts/scenes/GameoverScene";
 import GameScene from "./scripts/scenes/GameScene";
 
+
+
 const config = {
   type: Phaser.AUTO,
   width: 500,

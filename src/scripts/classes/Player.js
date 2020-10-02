@@ -12,16 +12,13 @@ export default class Player extends Phaser.GameObjects.Sprite {
   }
 
   move(){
-    // console.log(this.scene.cursors)
     if (this.scene.cursors.left.isDown) {
-      this.body.setVelocityX(-400);
+      this.body.setVelocityX(-500);
     } else if (this.scene.cursors.right.isDown) {
-      this.body.setVelocityX(400);
+      this.body.setVelocityX(500);
     } else {
       this.body.setVelocityX(0);
     }
-
-    // this.scene.input.keyboard.on('tapLeftSide', () => console.log('AAAAAAAAAAAAAAaaaa'), this)
   }
 
 

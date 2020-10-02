@@ -9,6 +9,8 @@ import Player from "../classes/Player";
 export default class GameScene extends Phaser.Scene {
   constructor() {
     super('Game')
+    this.leftTapPressed = false
+    this.rightTapPressed = false
   }
 
   init() {
@@ -33,27 +35,32 @@ export default class GameScene extends Phaser.Scene {
 
   createMobileControls() {
 
-    const leftActiveBlock = this.add.rectangle(0,0,this.sys.game.config.width / 2, this.sys.game.config.height, 0x000000, 0.5)
+    const leftActiveBlock = this.add.rectangle(0,0,this.sys.game.config.width / 2, this.sys.game.config.height, 0x000000, 0)
     leftActiveBlock.setOrigin(0);
-    leftActiveBlock.setInteractive()
-    leftActiveBlock.on('pointerover', () => this.leftSideTap(),this);
+    leftActiveBlock.setInteractive();
+    leftActiveBlock.on('pointerdown', () => this.leftSideTapDown(),this);
+    leftActiveBlock.on('pointerup', () => this.leftSideTapUp(),this);
 
-    const rightActiveBlock = this.add.rectangle(this.sys.game.config.width / 2,0,this.sys.game.config.width / 2, this.sys.game.config.height, 0x000000, 0.5)
+    const rightActiveBlock = this.add.rectangle(this.sys.game.config.width / 2,0,this.sys.game.config.width / 2, this.sys.game.config.height, 0x000000, 0)
     rightActiveBlock.setOrigin(0);
     rightActiveBlock.setInteractive();
-    rightActiveBlock.on('pointerover', () => this.rightSideTap(), this);
-
+    rightActiveBlock.on('pointerdown', () => this.rightSideTapDown(), this);
+    rightActiveBlock.on('pointerup', () => this.rightSideTapUp(), this);
 
   }
 
-  leftSideTap() {
-    console.log('left')
-    this.player.body.setVelocityX(-400)
+  leftSideTapDown() {
+    this.leftTapPressed = true;
+  }
+  leftSideTapUp() {
+    this.leftTapPressed = false;
   }
 
-  rightSideTap() {
-    console.log('right')
-    this.player.body.setVelocityX(-500)
+  rightSideTapDown() {
+    this.rightTapPressed = true
+  }
+  rightSideTapUp() {
+    this.rightTapPressed = false
   }
 
   createBackground() {
@@ -157,6 +164,12 @@ export default class GameScene extends Phaser.Scene {
         score: this.score,
         sounds: this.sounds,
       })
+    }
+
+    if (this.leftTapPressed) {
+      this.player.body.setVelocityX(-500);
+    } else if (this.rightTapPressed) {
+      this.player.body.setVelocityX(500);
     }
   }
 

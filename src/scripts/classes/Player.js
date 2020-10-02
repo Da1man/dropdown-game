@@ -2,12 +2,12 @@ import Phaser from 'phaser';
 
 export default class Player extends Phaser.GameObjects.Sprite {
   constructor(scene) {
-    super (scene, 250, 750, 'bucket');
+    super (scene, 250, 750, 'rs');
     this.scene = scene;
     this.scene.add.existing(this);
     this.scene.physics.add.existing(this);
     this.body.enable = true;
-    this.setScale(0.1);
+    this.setScale(0.5);
     this.body.setCollideWorldBounds(true);
   }
 

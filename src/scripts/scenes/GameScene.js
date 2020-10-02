@@ -2,6 +2,14 @@ import Phaser from 'phaser';
 import Coin from "../classes/Coin";
 import Bomb from "../classes/Bomb";
 import Player from "../classes/Player";
+import Sothebys from "../classes/Sothebys";
+import Kodo from "../classes/kodo";
+import Gorod from "../classes/Gorod";
+import Chistaya from "../classes/Chistaya";
+import Rustrus from "../classes/Rustrus";
+import Baltimor from "../classes/Baltimor";
+import President from "../classes/president";
+import Sber from "../classes/Sber";
 
 
 
@@ -110,21 +118,57 @@ export default class GameScene extends Phaser.Scene {
     this.scene.start('Gameover',{
       score: this.score,
       sounds: this.sounds,
+      target: target,
     });
   }
 
   createCoins() {
+    const randCoin = Phaser.Math.Between(2, 6)
     const coinVelocity = Phaser.Math.Between(50, 200);
-    this.coin = new Coin(this);
-    this.coins.add(this.coin);
-    this.coin.move(coinVelocity);
+    if (randCoin === 1) {
+      this.coin = new Coin(this);
+      this.coins.add(this.coin);
+      this.coin.move(coinVelocity);
+    } else if (randCoin === 2) {
+      this.coin = new Chistaya(this);
+      this.coins.add(this.coin);
+      this.coin.move(coinVelocity);
+    } else if (randCoin === 3) {
+      this.coin = new Rustrus(this);
+      this.coins.add(this.coin);
+      this.coin.move(coinVelocity);
+    } else if (randCoin === 4) {
+      this.coin = new Baltimor(this);
+      this.coins.add(this.coin);
+      this.coin.move(coinVelocity);
+    } else if (randCoin === 5) {
+      this.coin = new President(this);
+      this.coins.add(this.coin);
+      this.coin.move(coinVelocity);
+    } else if (randCoin === 6) {
+      this.coin = new Sber(this);
+      this.coins.add(this.coin);
+      this.coin.move(coinVelocity);
+    }
   }
 
   createBomb() {
+    const randBomb = Phaser.Math.Between(1,3)
     const bombVelocity = Phaser.Math.Between(50, 400);
-    this.bomb = new Bomb(this);
-    this.bombs.add(this.bomb);
-    this.bomb.move(bombVelocity);
+    if (randBomb === 1) {
+      this.bomb = new Kodo(this);
+      this.bombs.add(this.bomb);
+      this.bomb.move(bombVelocity);
+    } else if (randBomb === 2) {
+      this.bomb = new Sothebys(this);
+      this.bombs.add(this.bomb);
+      this.bomb.move(bombVelocity);
+    } else if (randBomb === 3) {
+      this.bomb = new Gorod(this);
+      this.bombs.add(this.bomb);
+      this.bomb.move(bombVelocity);
+    }
+
   }
 
   createScore() {
